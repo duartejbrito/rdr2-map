@@ -18,6 +18,8 @@ type MapTileLayerRecord = Record<LayerNames, L.TileLayer>;
 })
 export class MapComponent implements AfterViewInit {
 
+  backgroundColour: string = "#d2b790"
+
   private map: L.Map | undefined;
   private isDarkMode: boolean = false;
   private minZoom: number = 2;
@@ -34,17 +36,17 @@ export class MapComponent implements AfterViewInit {
       bounds: this.mapBoundary,
       attribution: '<a href="https://www.rockstargames.com/" target="_blank">Rockstar Games</a>',
     }),
-    [LayerNames.Detailed]: L.tileLayer('assets/maps/webp/detailed/{z}/{x}_{y}.webp', {
+    [LayerNames.Detailed]: L.tileLayer(`${this.getHostLayers()}webp/detailed/{z}/{x}_{y}.webp`, {
       noWrap: true,
       bounds: this.mapBoundary,
       attribution: '<a href="https://rdr2map.com/" target="_blank">RDR2Map</a>',
     }),
-    [LayerNames.Dark]: L.tileLayer('assets/maps/webp/darkmode/{z}/{x}_{y}.webp', {
+    [LayerNames.Dark]: L.tileLayer(`${this.getHostLayers()}webp/darkmode/{z}/{x}_{y}.webp`, {
       noWrap: true,
       bounds: this.mapBoundary,
       attribution: '<a href="https://github.com/TDLCTV" target="_blank">TDLCTV</a>',
     }),
-    [LayerNames.Black]: L.tileLayer('assets/maps/webp/black/{z}/{x}_{y}.webp', {
+    [LayerNames.Black]: L.tileLayer(`${this.getHostLayers()}webp/black/{z}/{x}_{y}.webp`, {
       noWrap: true,
       bounds: this.mapBoundary,
       attribution: '<a href="https://github.com/AdamNortonUK" target="_blank">AdamNortonUK</a>',
@@ -52,7 +54,7 @@ export class MapComponent implements AfterViewInit {
   };
 
   constructor(
-    // private settingsService: SettingsService
+    private settingsService: SettingsService
   ) { }
 
   ngAfterViewInit(): void {
@@ -69,13 +71,29 @@ export class MapComponent implements AfterViewInit {
       maxZoom: this.maxZoom,
       zoomControl: false,
       crs: L.CRS.Simple,
-      layers: [this.mapLayers[LayerNames.Default]],
+      layers: [this.mapLayers[this.settingsService.settings.baseLayer]],
     }).setView([this.viewportX, this.viewportY], this.viewportZoom);
+
+    L.control.zoom({
+      position: 'bottomright',
+    }).addTo(this.map);
 
     L.control.layers(this.mapLayers).addTo(this.map);
 
+    this.map.on('baselayerchange', (e) => {
+      const typedLayerName = e.name as keyof typeof LayerNames;
+      this.settingsService.settings.baseLayer = LayerNames[typedLayerName];
+      this.setMapBackground();
+    });
+
     const southWest = L.latLng(-160, -120), northEast = L.latLng(25, 250), bounds = L.latLngBounds(southWest, northEast);
     this.map.setMaxBounds(bounds);
+
+    this.map.on('resize', () => {
+      this.map?.invalidateSize();
+    });
+
+    this.setMapBackground();
 
     this.afterLoad();
   }
@@ -84,5 +102,19 @@ export class MapComponent implements AfterViewInit {
   }
 
   private afterLoad(): void {
+  }
+
+  private getHostLayers(): string {
+    return this.settingsService.settings.useHostedLayers ? 'assets/maps/' : 'https://map-tiles.b-cdn.net/assets/rdr3/';
+  }
+
+  setMapBackground(): void {
+    this.isDarkMode = [LayerNames.Black, LayerNames.Dark].includes(this.settingsService.settings.baseLayer) ? true : false;
+    console.log('setMapBackground', this.isDarkMode);
+    if (this.isDarkMode) {
+      this.backgroundColour = this.settingsService.settings.baseLayer === LayerNames.Black ? '#000' : '#3d3d3d';
+    } else {
+      this.backgroundColour = '#d2b790';
+    }
   }
 }
