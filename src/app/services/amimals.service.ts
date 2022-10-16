@@ -6,5 +6,6 @@ import { Injectable } from '@angular/core';
 export class AmimalsService {
 
   constructor() {
+    console.log('Hello AmimalsService');
   }
 }
