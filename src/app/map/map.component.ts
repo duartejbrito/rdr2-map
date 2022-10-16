@@ -110,7 +110,6 @@ export class MapComponent implements AfterViewInit {
 
   setMapBackground(): void {
     this.isDarkMode = [LayerNames.Black, LayerNames.Dark].includes(this.settingsService.settings.baseLayer) ? true : false;
-    console.log('setMapBackground', this.isDarkMode);
     if (this.isDarkMode) {
       this.backgroundColour = this.settingsService.settings.baseLayer === LayerNames.Black ? '#000' : '#3d3d3d';
     } else {
