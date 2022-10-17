@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1665969151562,
+  "timestamp": 1666012421274,
   "index": "/rdr2-map/index.html",
   "assetGroups": [
     {
@@ -13,11 +13,11 @@
       "urls": [
         "/rdr2-map/favicon.ico",
         "/rdr2-map/index.html",
-        "/rdr2-map/main.b128931a847c6f82.js",
+        "/rdr2-map/main.85b7e7f3ce44fa38.js",
         "/rdr2-map/manifest.webmanifest",
         "/rdr2-map/polyfills.b286c053efc2c5fb.js",
         "/rdr2-map/runtime.0251acbdbe18e7cd.js",
-        "/rdr2-map/styles.20f4df034928c7ae.css"
+        "/rdr2-map/styles.4728d0e1c570e46a.css"
       ],
       "patterns": []
     },
@@ -29,6 +29,8 @@
         "ignoreVary": true
       },
       "urls": [
+        "/rdr2-map/assets/data/animal_legendary.json",
+        "/rdr2-map/assets/data/animal_spawns.json",
         "/rdr2-map/assets/icons/icon-128x128.png",
         "/rdr2-map/assets/icons/icon-144x144.png",
         "/rdr2-map/assets/icons/icon-152x152.png",
@@ -46,6 +48,8 @@
   ],
   "dataGroups": [],
   "hashTable": {
+    "/rdr2-map/assets/data/animal_legendary.json": "e2a65d83c04f3fd57a15ae1fe3bbdf0a17f2b387",
+    "/rdr2-map/assets/data/animal_spawns.json": "a6f8768ad8fe8bbe54fea22a6dff01c3252b357a",
     "/rdr2-map/assets/icons/icon-128x128.png": "dae3b6ed49bdaf4327b92531d4b5b4a5d30c7532",
     "/rdr2-map/assets/icons/icon-144x144.png": "b0bd89982e08f9bd2b642928f5391915b74799a7",
     "/rdr2-map/assets/icons/icon-152x152.png": "7479a9477815dfd9668d60f8b3b2fba709b91310",
@@ -55,15 +59,15 @@
     "/rdr2-map/assets/icons/icon-72x72.png": "c457e56089a36952cd67156f9996bc4ce54a5ed9",
     "/rdr2-map/assets/icons/icon-96x96.png": "3914125a4b445bf111c5627875fc190f560daa41",
     "/rdr2-map/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
-    "/rdr2-map/index.html": "89e946aa20fcc8f785143d81b1992988e118204c",
+    "/rdr2-map/index.html": "fec21424dbf47488996102e537dea217290ffdff",
     "/rdr2-map/layers-2x.9859cd1231006a4a.png": "152a162333e46d24f9d89f566312fc0c64011dee",
     "/rdr2-map/layers.ef6db8722c2c3f9a.png": "c9e7528e491a39232ba24a2706c6c739d6fb0f06",
-    "/rdr2-map/main.b128931a847c6f82.js": "9bf1b59313f37239d288de8352d669b390fbb11c",
+    "/rdr2-map/main.85b7e7f3ce44fa38.js": "2b5ac2fc36007f43afa974c89cb8cfe036da00ae",
     "/rdr2-map/manifest.webmanifest": "c0bc16a033528024026fb81b63b425b83f2482f7",
     "/rdr2-map/marker-icon.d577052aa271e13f.png": "60a90bcbb2b42b7ddb4556db94eb7c1084b0e5da",
     "/rdr2-map/polyfills.b286c053efc2c5fb.js": "06757a731653e1bfb8f5bf7770e355a710743636",
     "/rdr2-map/runtime.0251acbdbe18e7cd.js": "9467932af81bb311cfecb484835ec98a0b22e2a1",
-    "/rdr2-map/styles.20f4df034928c7ae.css": "8d2cb5e1fb2f506eb037ff5939afb31b3d0af87a"
+    "/rdr2-map/styles.4728d0e1c570e46a.css": "9ca6c6a282cecbfb3656da8a82531a9a8334fe53"
   },
   "navigationUrls": [
     {
