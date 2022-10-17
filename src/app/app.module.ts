@@ -7,6 +7,7 @@ import { MaterialModule } from './material/material.module';
 import { MapComponent } from './map/map.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { environment } from '../environments/environment';
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
     }),
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

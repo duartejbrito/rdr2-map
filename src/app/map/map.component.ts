@@ -1,5 +1,6 @@
 import { AfterViewInit, Component } from '@angular/core';
 import * as L from 'leaflet';
+import { AnimalsService } from '../services/animals.service';
 import { SettingsService } from '../services/settings.service';
 
 export enum LayerNames {
@@ -54,7 +55,8 @@ export class MapComponent implements AfterViewInit {
   };
 
   constructor(
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
+    private animalsService: AnimalsService,
   ) { }
 
   ngAfterViewInit(): void {
@@ -86,7 +88,9 @@ export class MapComponent implements AfterViewInit {
       this.setMapBackground();
     });
 
-    const southWest = L.latLng(-160, -120), northEast = L.latLng(25, 250), bounds = L.latLngBounds(southWest, northEast);
+    const southWest = L.latLng(-160, -120);
+    const northEast = L.latLng(25, 250);
+    const bounds = L.latLngBounds(southWest, northEast);
     this.map.setMaxBounds(bounds);
 
     this.map.on('resize', () => {
