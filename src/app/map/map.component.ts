@@ -1,5 +1,5 @@
 import { AfterViewInit, Component } from '@angular/core';
-import * as L from 'leaflet';
+import { Map, LatLngBounds, LatLng, TileLayer, CRS, Control } from 'leaflet';
 import { AnimalsService } from '../services/animals.service';
 import { SettingsService } from '../services/settings.service';
 
@@ -10,7 +10,7 @@ export enum LayerNames {
   Black = 'Black',
 }
 
-type MapTileLayerRecord = Record<LayerNames, L.TileLayer>;
+type MapTileLayerRecord = Record<LayerNames, TileLayer>;
 
 @Component({
   selector: 'app-map',
@@ -21,33 +21,33 @@ export class MapComponent implements AfterViewInit {
 
   backgroundColour: string = "#d2b790"
 
-  private map: L.Map | undefined;
+  private map: Map | undefined;
   private isDarkMode: boolean = false;
   private minZoom: number = 2;
   private maxZoom: number = 7;
   private viewportX: number = -70;
   private viewportY: number = 98;
   private viewportZoom: number = 3;
-  private mapBoundary: L.LatLngBounds = L.latLngBounds(L.latLng(-144, 0), L.latLng(0, 176));
+  private mapBoundary: LatLngBounds = new LatLngBounds(new LatLng(-144, 0), new LatLng(0, 176));
 
   //Download map tiles here https://github.com/jeanropke/RDOMap#map-tiles
   private mapLayers: MapTileLayerRecord = {
-    [LayerNames.Default]: L.tileLayer('https://s.rsg.sc/sc/images/games/RDR2/map/game/{z}/{x}/{y}.jpg', {
+    [LayerNames.Default]: new TileLayer('https://s.rsg.sc/sc/images/games/RDR2/map/game/{z}/{x}/{y}.jpg', {
       noWrap: true,
       bounds: this.mapBoundary,
       attribution: '<a href="https://www.rockstargames.com/" target="_blank">Rockstar Games</a>',
     }),
-    [LayerNames.Detailed]: L.tileLayer(`${this.getHostLayers()}webp/detailed/{z}/{x}_{y}.webp`, {
+    [LayerNames.Detailed]: new TileLayer(`${this.getHostLayers()}webp/detailed/{z}/{x}_{y}.webp`, {
       noWrap: true,
       bounds: this.mapBoundary,
       attribution: '<a href="https://rdr2map.com/" target="_blank">RDR2Map</a>',
     }),
-    [LayerNames.Dark]: L.tileLayer(`${this.getHostLayers()}webp/darkmode/{z}/{x}_{y}.webp`, {
+    [LayerNames.Dark]: new TileLayer(`${this.getHostLayers()}webp/darkmode/{z}/{x}_{y}.webp`, {
       noWrap: true,
       bounds: this.mapBoundary,
       attribution: '<a href="https://github.com/TDLCTV" target="_blank">TDLCTV</a>',
     }),
-    [LayerNames.Black]: L.tileLayer(`${this.getHostLayers()}webp/black/{z}/{x}_{y}.webp`, {
+    [LayerNames.Black]: new TileLayer(`${this.getHostLayers()}webp/black/{z}/{x}_{y}.webp`, {
       noWrap: true,
       bounds: this.mapBoundary,
       attribution: '<a href="https://github.com/AdamNortonUK" target="_blank">AdamNortonUK</a>',
@@ -66,21 +66,21 @@ export class MapComponent implements AfterViewInit {
   private initMap(): void {
     this.beforeLoad();
 
-    this.map = L.map('map', {
+    this.map = new Map('map', {
       preferCanvas: true,
       attributionControl: false,
       minZoom: this.minZoom,
       maxZoom: this.maxZoom,
       zoomControl: false,
-      crs: L.CRS.Simple,
+      crs: CRS.Simple,
       layers: [this.mapLayers[this.settingsService.settings.baseLayer]],
     }).setView([this.viewportX, this.viewportY], this.viewportZoom);
 
-    L.control.zoom({
+    new Control.Zoom({
       position: 'bottomright',
     }).addTo(this.map);
 
-    L.control.layers(this.mapLayers).addTo(this.map);
+    new Control.Layers(this.mapLayers).addTo(this.map);
 
     this.map.on('baselayerchange', (e) => {
       const typedLayerName = e.name as keyof typeof LayerNames;
@@ -88,9 +88,9 @@ export class MapComponent implements AfterViewInit {
       this.setMapBackground();
     });
 
-    const southWest = L.latLng(-160, -120);
-    const northEast = L.latLng(25, 250);
-    const bounds = L.latLngBounds(southWest, northEast);
+    const southWest = new LatLng(-160, -120);
+    const northEast = new LatLng(25, 250);
+    const bounds = new LatLngBounds(southWest, northEast);
     this.map.setMaxBounds(bounds);
 
     this.map.on('resize', () => {
@@ -106,6 +106,9 @@ export class MapComponent implements AfterViewInit {
   }
 
   private afterLoad(): void {
+    this.animalsService.hmOverlay.addTo(this.map);
+    this.animalsService.spawnLayer.addTo(this.map);
+    this.animalsService.init();
   }
 
   private getHostLayers(): string {

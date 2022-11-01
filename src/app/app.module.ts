@@ -8,6 +8,7 @@ import { MapComponent } from './map/map.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { HttpClientModule } from '@angular/common/http';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { HttpClientModule } from '@angular/common/http';
       registrationStrategy: 'registerWhenStable:30000'
     }),
     HttpClientModule,
+    LeafletModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
