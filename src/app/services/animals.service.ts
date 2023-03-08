@@ -4,6 +4,8 @@ import { firstValueFrom, Observable } from 'rxjs';
 import * as L from 'leaflet';
 import 'leaflet-canvas-marker/dist/leaflet.canvas-markers.js';
 
+//cenas
+
 declare var HeatmapOverlay: any;
 
 @Injectable({
